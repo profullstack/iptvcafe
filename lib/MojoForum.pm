@@ -20,10 +20,9 @@ sub startup ($self) {
     posts => sub { state $posts = MojoForum::Model::Posts->new(sqlite => shift->sqlite) });
  
   # Migrate to latest version if necessary
-  my $path = $self->home->child('migrations', 'blog.sql');
-  $self->sqlite->auto_migrate(1)->migrations->name('blog')->from_file($path);
+  my $path = $self->home->child('migrations', 'mojo_forum.sql');
 
-  $path = $self->home->child('migrations', 'chat.sql');
+  $self->sqlite->auto_migrate(1)->migrations->name('blog')->from_file($path);
   $self->sqlite->auto_migrate(1)->migrations->name('chat')->from_file($path);
 
   # Router
