@@ -3,6 +3,8 @@ use Mojo::Base 'Mojolicious', -signatures;
 use Mojo::SQLite;
 use MojoForum::Model::Posts;
 use MojoForum::Controller::Posts;
+use MojoForum::Model::Chats;
+use MojoForum::Controller::Chats;
 
 # This method will run once at server start
 sub startup ($self) {
@@ -23,6 +25,10 @@ sub startup ($self) {
   # Migrate to latest version if necessary
   my $path = $self->home->child('migrations', 'blog.sql');
   $self->sqlite->auto_migrate(1)->migrations->name('blog')->from_file($path);
+
+  $path = $self->home->child('migrations', 'chat.sql');
+  $self->sqlite->auto_migrate(1)->migrations->name('chat')->from_file($path);
+
  
 
   # Router
@@ -30,6 +36,8 @@ sub startup ($self) {
 
   # Normal route to controller
   $r->get('/')->to('Example#welcome');
+
+	# /posts
 	$r->get('/posts')->to('posts#index');
   $r->get('/posts/create')->to('posts#create')->name('create_post');
   $r->post('/posts')->to('posts#store')->name('store_post');
@@ -37,6 +45,9 @@ sub startup ($self) {
   $r->get('/posts/:id/edit')->to('posts#edit')->name('edit_post');
   $r->put('/posts/:id')->to('posts#update')->name('update_post');
 
+	# /chats
+	$r->get('/chats')->to('chats#index');
+	$r->websocket('/title')->to('chats#title');
 }
 
 1;

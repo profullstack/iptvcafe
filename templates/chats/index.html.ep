@@ -1,0 +1,15 @@
+% my $url = url_for 'title';
+<!doctype html>
+<html lang="en">
+<head>
+<title>Chat</title>
+<script>
+  const ws = new WebSocket('<%= $url->to_abs %>');
+  ws.onmessage = function (event) { document.body.innerHTML += event.data };
+  ws.onopen    = function (event) { ws.send('https://mojolicious.org') };
+</script>
+</head>
+<body>
+test
+</body>
+</html>
