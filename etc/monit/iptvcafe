@@ -1,6 +1,6 @@
-check host grazily.com with address grazily.com
-	start program = "/bin/systemctl start grazily-api"
-	stop program = "/bin/systemctl stop grazily-api"
+check host iptvcafe.com with address iptvcafe.com
+	start program = "/bin/systemctl start iptvcafe"
+	stop program = "/bin/systemctl stop iptvcafe"
 
 	if failed
 		port 443 protocol http and request "/api/1" method GET status != 200
