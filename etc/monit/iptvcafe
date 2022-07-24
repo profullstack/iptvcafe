@@ -1,0 +1,7 @@
+check host grazily.com with address grazily.com
+	start program = "/bin/systemctl start grazily-api"
+	stop program = "/bin/systemctl stop grazily-api"
+
+	if failed
+		port 443 protocol http and request "/api/1" method GET status != 200
+	then restart
