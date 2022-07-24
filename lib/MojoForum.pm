@@ -9,9 +9,6 @@ use MojoForum::Controller::Chats;
 # This method will run once at server start
 sub startup ($self) {
 
-  # Load configuration from config file
-  my $config = $self->plugin('NotYAMLConfig');
-
   $self->plugin('Config');
   # Configure the application
   $self->secrets($self->config('secrets'));
@@ -28,8 +25,6 @@ sub startup ($self) {
 
   $path = $self->home->child('migrations', 'chat.sql');
   $self->sqlite->auto_migrate(1)->migrations->name('chat')->from_file($path);
-
- 
 
   # Router
   my $r = $self->routes;
