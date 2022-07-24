@@ -1,7 +1,7 @@
-package Blog;
+package MojoForum::Blog;
 use Mojo::Base 'Mojolicious';
  
-use Blog::Model::Posts;
+use MojoForum::Blog::Model::Posts;
 use Mojo::SQLite;
  
 sub startup {
@@ -14,7 +14,7 @@ sub startup {
   # Model
   $self->helper(sqlite => sub { state $sql = Mojo::SQLite->new->from_filename(shift->config('sqlite')) });
   $self->helper(
-    posts => sub { state $posts = Blog::Model::Posts->new(sqlite => shift->sqlite) });
+    posts => sub { state $posts = MojoForum::Blog::Model::Posts->new(sqlite => shift->sqlite) });
  
   # Migrate to latest version if necessary
   my $path = $self->home->child('migrations', 'blog.sql');
@@ -22,7 +22,7 @@ sub startup {
  
   # Controller
   my $r = $self->routes;
-  $r->get('/' => sub { shift->redirect_to('posts') });
+	$r->get('/' => sub { shift->redirect_to('posts') });
   $r->get('/posts')->to('posts#index');
   $r->get('/posts/create')->to('posts#create')->name('create_post');
   $r->post('/posts')->to('posts#store')->name('store_post');
