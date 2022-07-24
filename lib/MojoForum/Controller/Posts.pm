@@ -1,4 +1,4 @@
-package MojoForum::Blog::Controller::Posts;
+package MojoForum::Controller::Posts;
 use Mojo::Base 'Mojolicious::Controller';
  
 sub create { shift->render(post => {}) }

@@ -1,4 +1,4 @@
-package MojoForum::Blog::Model::Posts;
+package MojoForum::Model::Posts;
 use Mojo::Base -base;
  
 has 'sqlite';
