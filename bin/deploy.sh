@@ -3,7 +3,7 @@
 . .env.defaults
 . $HOME/.bashrc
 
-args=(-azvP --delete --exclude=node_modules --exclude=redis-data --exclude=.idea --exclude=.git --exclude=mongo_data --exclude=data01 --exclude=uploads --exclude=emails.txt --exclude=main --exclude=deno --exclude=app --exclude=database.sqlite --exclude=database.sqlite-journal)
+args=(-azvP --delete --exclude=node_modules --exclude=redis-data --exclude=.idea --exclude=.git --exclude=mongo_data --exclude=data01 --exclude=uploads --exclude=emails.txt --exclude=main --exclude=deno --exclude=app --exclude=database.sqlite --exclude=database.sqlite-wal --exclude=database.sqlite-shm --exclude=database.sqlite-journal)
 hosts=($HOST_DOMAIN)
 user=$HOST_USER
 name=$HOST_PATH
