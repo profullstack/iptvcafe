@@ -1,0 +1,4 @@
+% layout 'user', title => $user->{username};
+<h2><%= $user->{username} %></h2>
+<p><%= $user->{email} %></p>
+%= link_to 'Edit' => edit_user => {id => $user->{id}}

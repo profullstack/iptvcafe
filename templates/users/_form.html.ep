@@ -1,0 +1,23 @@
+<form action="<%= $target %>" method="post">
+	<fielset>
+		<div class="field">
+			%= label_for username => 'Username'
+			%= text_field username => $user->{username}
+		</div>
+		<div class="field">
+		%= label_for email => 'Email'
+		%= text_field email => $user->{email}
+		</div>
+		<div class="field">
+		%= label_for password => 'Password'
+		%= password_field $user->{password}, name => 'password', id => 'password'
+		</div>
+		<div class="field">
+		%= label_for password_repeat => 'Repeat Password'
+		%= password_field $user->{password_repeat}, name=> 'password_repeat', id => 'password_repeat'
+		</div>
+	</fielset>
+	<footer>
+  %= submit_button $caption
+	</footer>
+</form>

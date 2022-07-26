@@ -5,6 +5,8 @@ use MojoForum::Model::Posts;
 use MojoForum::Controller::Posts;
 use MojoForum::Model::Chats;
 use MojoForum::Controller::Chats;
+use MojoForum::Model::Users;
+use MojoForum::Controller::Users;
 
 # This method will run once at server start
 sub startup ($self) {
@@ -18,12 +20,15 @@ sub startup ($self) {
   $self->helper(sqlite => sub { state $sql = Mojo::SQLite->new->from_filename(shift->config('sqlite')) });
   $self->helper(
     posts => sub { state $posts = MojoForum::Model::Posts->new(sqlite => shift->sqlite) });
+  $self->helper(
+    users => sub { state $users = MojoForum::Model::Users->new(sqlite => shift->sqlite) });
  
   # Migrate to latest version if necessary
   my $path = $self->home->child('migrations', 'mojo_forum.sql');
 
   $self->sqlite->auto_migrate(1)->migrations->name('blog')->from_file($path);
   $self->sqlite->auto_migrate(1)->migrations->name('chat')->from_file($path);
+  $self->sqlite->auto_migrate(1)->migrations->name('users')->from_file($path);
 
   # Router
   my $r = $self->routes;
@@ -42,6 +47,14 @@ sub startup ($self) {
 	# /chats
 	$r->get('/chats')->to('chats#index');
 	$r->websocket('/title')->to('chats#title');
+
+	# /users
+	$r->get('/users')->to('users#index');
+  $r->get('/users/create')->to('users#create')->name('create_user');
+  $r->post('/users')->to('users#store')->name('store_user');
+  $r->get('/users/:id')->to('users#show')->name('show_user');
+  $r->get('/users/:id/edit')->to('users#edit')->name('edit_user');
+  $r->put('/users/:id')->to('users#update')->name('update_user');
 }
 
 1;

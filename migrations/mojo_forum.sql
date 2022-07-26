@@ -16,3 +16,20 @@ create table if not exists chats (
  
 -- 2 down
 drop table if exists chats;
+
+-- 3 up
+create table if not exists users (
+  id    integer primary key autoincrement,
+  email string unique,
+	hashed_password string,
+	created_at text,
+	updated_at text,
+	username text unique,
+	contactme integer default 1,
+	phone text,
+	password_reset_token text,
+	password_reset_expiry integer
+);
+ 
+-- 3 down
+drop table if exists users;
