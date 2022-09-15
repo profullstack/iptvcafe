@@ -1,0 +1,11 @@
+<html>
+  <head>
+    <title>Error</title>
+  </head>
+  <body>
+  <p>
+  	<b>Error code: <%= $code; %></b><br/>
+ 	<small><em>Please notify a site administrator</em></small>
+  </p>
+  </body>
+</html>

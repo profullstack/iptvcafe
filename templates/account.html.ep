@@ -1,0 +1,68 @@
+% my @account_info = @$user_info;
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title><%= $account_info[0][1]; %>'s Account</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&#038;subset=latin,latin-ext' type='text/css' media='all'>
+    <link id="custom-google-fonts" href="https://fonts.googleapis.com/css?family=Libre+Franklin:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    %= include '_maincss'
+  </head>
+  <body>
+  <div id="top-nav" class="top-nav">
+    <div id="top-nav-left" class="top-nav-left">
+      [<a href="/">Home</a>] [<a href="/account">Account</a>] [<a href="/profile?id=<%= $account_info[0][0]; %>">View Profile</a>]
+    </div>
+    <div id="top-nav-right" class="top-nav-right">
+    	[<a href="/logout">Logout</a>]
+    </div>
+  </div>
+  <div class="main-content" id="main-content">
+	% if ($error) {
+		<span style="font-weight: bold; color: red;">Error: <%= $error; %></span><br/>
+	% }
+	<div id="site-title" class="site-title"><a href="/"><%= Minimojo::get_info('setting_value', 'settings', 'setting_name', 'site_name'); %></a></div>
+  	<h1>My Account</h1>
+		<div id="is-interested" class="is-interested">
+		 <form method="post" id="interested" class="interested" action="<%= url_for('account'); %>" enctype="multipart/form-data">
+		   <div class="first-name-last-name">
+		   <div id="email" class="first-name">
+		       <label for="email">Email: </label>
+		       <div id="text-entry" class="text-entry">
+		         <input type="text" id="email" name="email" class="input_name" value="<%= $account_info[0][3]; %>" required>
+		       </div>
+		     </div>
+		   </div>
+            <div id="form-action" class="form-action dontshow">
+              <input type="text" id="user_id" name="user_id" value="<%= $account_info[0][0]; %>">
+              <input type="text" id="action" name="action" value="update_email">
+            </div>
+		    <div id="form-submit" class="form-submit">
+		     <input type="submit" value="Update">
+		   </div>
+		 </form>
+		 <form method="post" id="interested" class="interested" action="<%= url_for('account'); %>" enctype="multipart/form-data">
+		   <div class="first-name-last-name">
+		   <div id="pic" class="first-name">
+		       <label for="pic">Profile Picture: </label>
+		       % if ($account_info[0][5]) {
+		       <div id="profile-pic-container" class="profile-pic-container">
+		       	<img src="https://anthony.paperhouse.cc/userdata/<%= $account_info[0][5]; %>" class="profile-pic" id="profile-pic" />
+		       </div>
+		       % }
+		       <div id="file-entry" class="file-entry">
+		         <input type="file" id="pic" name="pic" class="input_pic" value="" required>
+		       </div>
+		     </div>
+		   </div>
+            <div id="form-action" class="form-action dontshow">
+              <input type="text" id="user_id" name="user_id" value="<%= $account_info[0][0]; %>">
+              <input type="text" id="action" name="action" value="update_pic">
+            </div>
+		    <div id="form-submit" class="form-submit">
+		     <input type="submit" value="Update">
+		   </div>
+		 </form>
+		</div>
+    </div>
+  </body>
+</html>

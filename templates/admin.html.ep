@@ -1,0 +1,217 @@
+% my @active_info = @$active_user_info;
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Admin</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&#038;subset=latin,latin-ext' type='text/css' media='all'>
+    <link id="custom-google-fonts" href="https://fonts.googleapis.com/css?family=Libre+Franklin:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    %= include '_maincss'
+  </head>
+  <body>
+  <div id="top-nav" class="top-nav">
+    <div id="top-nav-left" class="top-nav-left">
+      [<a href="/">Home</a>] [<a href="/account">Account</a>] [<a href="/profile?id=<%= $active_info[0][0]; %>">View Profile</a>]
+    </div>
+    <div id="top-nav-right" class="top-nav-right">
+    	[<a href="/logout">Logout</a>]
+    </div>
+  </div>
+  <div class="main-content" id="main-content">
+	% if ($error) {
+		<span style="font-weight: bold; color: red;">Error: <%= $error; %></span><br/>
+	% }
+    % if ($success) {
+       <span style="font-weight: bold; color: green;"><%= $success; %>!</span><br/>
+    % }
+  	<h1>Admin</h1>
+  	% if ($action eq 'add') {
+  		% if ($type eq 'forum') {
+		  	<div id="admin=add-forum" class="admin-add-forum">
+		  		<h2>Add Forum</h2>
+				 <form method="post" id="interested" class="interested" name="add_forum" action="<%= url_for('admin'); %>" enctype="multipart/form-data">
+				  <div class="first-name-last-name">
+				    <div id="first-name" class="first-name">
+				      <div id="text-entry" class="text-entry">
+				      	<input type="text" id="forum_name" name="forum_name" class="input-text" value="">
+				      </div>
+				      <div id="text-entry" class="text-entry">
+				      	<input type="text" id="forum_info" name="forum_info" class="input-text" value="">
+				      </div>
+				  </div>
+				  <div id="form-action" class="form-action dontshow">
+					<input type="text" id="created_by_user_id" name="created_by_user_id" value="<%= $active_info[0][0]; %>">
+					<input type="text" id="created_by_user" name="created_by_user" value="<%= $active_info[0][1]; %>">
+					<input type="text" id="action" name="action" value="add">
+					<input type="text" id="action" name="type" value="forum">
+				   </div>
+				   <div id="form-submit" class="form-submit">
+				    <input type="submit" value="Add">
+				  </div>
+				</form>
+		  	</div>
+	  	% }
+	  	% elsif ($type eq 'board') {
+		  	<div id="admin-add-board" class="admin-add-board">
+		  		<h2>Add Board to <%= Minimojo::get_info('forum_name', 'forums', 'id', $forum_id); %></h2>
+				 <form method="post" id="interested" class="interested" name="add_board" action="<%= url_for('admin'); %>" enctype="multipart/form-data">
+				  <div class="first-name-last-name">
+				    <div id="first-name" class="first-name">
+				      <div id="text-entry" class="text-entry">
+				      	<input type="text" id="board_name" name="board_name" class="input-text" value="">
+				      </div>
+				      <div id="text-entry" class="text-entry">
+				      	<input type="text" id="board_info" name="board_info" class="input-text" value="">
+				      </div>
+				  </div>
+				  <div id="form-action" class="form-action dontshow">
+					<input type="text" id="created_by_user_id" name="created_by_user_id" value="<%= $active_info[0][0]; %>">
+					<input type="text" id="created_by_user" name="created_by_user" value="<%= $active_info[0][1]; %>">
+					<input type="text" id="forum_id" name="forum_id" value="<%= $forum_id; %>">
+					<input type="text" id="action" name="action" value="add">
+					<input type="text" id="action" name="type" value="board">
+				   </div>
+				   <div id="form-submit" class="form-submit">
+				    <input type="submit" value="Add">
+				  </div>
+				</form>
+		  	</div>
+	  	% }
+  	% }
+  	% elsif ($action eq 'delete') {
+	  	<div id="admin-delete" class="admin-delete">
+	  		<h2>Really delete?</h2>
+			 <form method="post" id="interested" class="interested" name="delete" action="<%= url_for('admin'); %>" enctype="multipart/form-data">
+			  <div id="form-action" class="form-action dontshow">
+				<input type="text" id="created_by_user_id" name="created_by_user_id" value="<%= $active_info[0][0]; %>">
+				<input type="text" id="created_by_user" name="created_by_user" value="<%= $active_info[0][1]; %>">
+				<input type="text" id="action" name="action" value="delete">
+				<input type="text" id="action" name="type" value="<%= $type; %>">
+				<input type="text" id="id" name="id" value="<%= $id; %>">
+			   </div>
+			   <div id="form-submit" class="form-submit">
+			    <input name="are_you_sure" type="submit" value="Yes">
+			    <input name="are_you_sure" type="submit" value="No">
+			  </div>
+			</form>
+	  	</div>
+  	% }
+  	% elsif ($action eq 'edit'){
+  		% if ($type eq 'user') {
+  			<div id="admin-edit-user" class="admin-edit-user">
+  				<h2>Edit <%= Minimojo::get_info('user', 'users', 'id', $id); %></h2>
+  				<div id="admin-edit-user-role" class="admin-edit-user-role">
+  					<h3>Edit user role</h3>
+					 <form method="post" id="interested" class="interested" name="edit_user_role" action="<%= url_for('admin'); %>" enctype="multipart/form-data">
+			            <div id="hours-week-available" class="hours-week-available">
+				            <div id="radio-entry" class="radio-entry">
+				              % my @user_roles = Minimojo::user_roles();
+				              % foreach my $user_role (@user_roles) {
+				              	% unless ($user_role eq Minimojo::get_info('user_role', 'users', 'id', $id)) {
+					           	<input type="radio" id="user_role" name="user_role" class="user_role"  value="<%= $user_role; %>">
+					            	<label for="<%= $user_role; %>"><%= $user_role; %></label>
+					            % }
+				              % }
+				            </div>
+			            </div>
+					  <div id="form-action" class="form-action dontshow">
+						<input type="text" id="admin_id" name="admin_id" value="<%= $active_info[0][0]; %>">
+						<input type="text" id="admin" name="admin" value="<%= $active_info[0][1]; %>">
+						<input type="text" id="action" name="action" value="edit">
+						<input type="text" id="type" name="type" value="<%= $type; %>">
+						<input type="text" id="edit_user" name="edit" value="role">
+						<input type="text" id="id" name="id" value="<%= $id; %>">
+					   </div>
+					   <div id="form-submit" class="form-submit">
+					    <input name="submit" type="submit" value="Submit">
+					  </div>
+					</form>
+  				</div>
+  			</div>
+  		% }
+  	% }
+  	% else {
+	  	% my $head_admins = Minimojo::get_all_info('*', 'settings', 'setting_name', 'head_admin_user');
+	  	% foreach my $head_admin (@$head_admins) {	
+		  	% if (grep {$active_info[0][1] eq $_} @$head_admin[2]) {
+		  		<div id="head-admin-settings" class="head-admin-settings">
+		  			<h2>Head admin settings</h2>
+		  				<div id="setting-domain" class="setting-domain">
+		  					<div id="is-interested" class="is-interested">
+								<form method="post" id="interested" class="interested" name="head_admin_setting" action="<%= url_for('admin'); %>" enctype="multipart/form-data">
+								  <div class="first-name-last-name">
+								    <div id="domain" class="first-name">
+								    <label for="domain">Domain:</label>
+								      <div id="text-entry" class="text-entry">
+								      	<input type="text" id="domain" name="domain" class="input-text" value="<%= Minimojo::get_info('setting_value', 'settings', 'setting_name', 'domain'); %>">
+								      	</div>
+								    </div>
+								  </div>
+								  <div id="form-action" class="form-action dontshow">
+									<input type="text" id="admin_id" name="admin_id" value="<%= $active_info[0][0]; %>">
+									<input type="text" id="admin" name="admin" value="<%= $active_info[0][1]; %>">
+									<input type="text" id="action" name="action" value="head_admin_setting">
+									<input type="text" id="action" name="type" value="domain">
+								   </div>
+								   <div id="form-submit" class="form-submit">
+								    <input type="submit" value="Update">
+								  </div>
+								</form>
+							</div>
+		  				</div>
+		  				<div id="setting-site-name" class="setting-site-name">
+		  					<div id="is-interested" class="is-interested">
+								<form method="post" id="interested" class="interested" name="head_admin_setting" action="<%= url_for('admin'); %>" enctype="multipart/form-data">
+								  <div class="first-name-last-name">
+								    <div id="first-name" class="first-name">
+								    <label for="domain">Site Name:</label>
+								      <div id="text-entry" class="text-entry">
+								      	<input type="text" id="site_name" name="site_name" class="input-text" value="<%= Minimojo::get_info('setting_value', 'settings', 'setting_name', 'site_name'); %>">
+								      	</div>
+								    </div>
+								  </div>
+								  <div id="form-action" class="form-action dontshow">
+									<input type="text" id="admin_id" name="admin_id" value="<%= $active_info[0][0]; %>">
+									<input type="text" id="admin" name="admin" value="<%= $active_info[0][1]; %>">
+									<input type="text" id="action" name="action" value="head_admin_setting">
+									<input type="text" id="action" name="type" value="site_name">
+								   </div>
+								   <div id="form-submit" class="form-submit">
+								    <input type="submit" value="Update">
+								  </div>
+								</form>
+							</div>
+		  				</div>
+		  				<div id="settings-head-admin" class="settings-head-admin">
+		  					<h3>Add Head Admin</h3>
+							 <form method="post" id="interested" class="interested" name="edit_user_role" action="<%= url_for('admin'); %>" enctype="multipart/form-data">
+					            <div id="hours-week-available" class="hours-week-available">
+						            <div id="radio-entry" class="radio-entry">
+					  					% my $admins = Minimojo::get_all_info('*', 'users', 'user_role', 'admin');
+					  					% foreach my $admin (@$admins) {
+					  						% foreach my $admin_username (@$admin[1]) {
+					  							% unless (Minimojo::get_info('id', 'settings', 'setting_name', 'head_admin_user', ' AND setting_value = \''.Minimojo::clean_comment($admin_username).'\'')) {
+										           	<input type="radio" id="admin_user" name="admin_user" class="admin_user"  value="<%= $admin_username; %>">
+										            	<label for="<%= $admin_username; %>"><%= $admin_username; %></label>
+									           	% }
+					  						% }
+					  					% }
+						            </div>
+					            </div>
+							  <div id="form-action" class="form-action dontshow">
+								<input type="text" id="admin_id" name="admin_id" value="<%= $active_info[0][0]; %>">
+								<input type="text" id="admin" name="admin" value="<%= $active_info[0][1]; %>">
+								<input type="text" id="action" name="action" value="head_admin_setting">
+								<input type="text" id="action" name="type" value="add_head_admin">
+							  </div>
+							   <div id="form-submit" class="form-submit">
+							    <input name="submit" type="submit" value="Add">
+							  </div>
+							</form>
+		  				</div>
+		  		</div>
+		  	% }
+	  	% }
+  	% }
+    </div>
+  </body>
+</html>

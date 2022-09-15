@@ -1,0 +1,113 @@
+% my @active_info;
+% if ($is_user_logged_in eq 'yes') {
+	% @active_info = @$active_user_info;
+% }
+% my @profile_info = @$user_profile_info;
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Profile for <%= $profile_info[0][1]; %></title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&#038;subset=latin,latin-ext' type='text/css' media='all'>
+    <link id="custom-google-fonts" href="https://fonts.googleapis.com/css?family=Libre+Franklin:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    %= include '_maincss'
+  </head>
+  <body>
+	<div id="top-nav" class="top-nav">
+	    <div id="top-nav-left" class="top-nav-left">
+	      [<a href="/">Home</a>]
+	      % if ($is_user_logged_in eq 'yes') {
+	       [<a href="/account">Account</a>] [<a href="/profile?id=<%= $active_info[0][0]; %>">View Profile</a>]
+	      % }
+	    </div>
+	    <div id="top-nav-right" class="top-nav-right">
+	      % if ($is_user_logged_in eq 'yes') {
+	      	% if (Minimojo::get_count('notifications', 'notification_status', 'unread', ' AND user_id = \''.$active_info[0][0].'\'') > 0) {
+	      		<strong>
+	      	% }
+	      	[<a href="/notifications">(<%= Minimojo::get_count('notifications', 'notification_status', 'unread', ' AND user_id = \''.$active_info[0][0].'\''); %>) Notifications</a>]
+	      	% if (Minimojo::get_count('notifications', 'notification_status', 'unread') > 0) {
+	      		</strong>
+	      	% }
+	      [<a href="/logout">Logout</a>]
+	      % }
+	      % else {
+	      [<a href="/login">Login</a>] [<a href="/register">Register</a>]
+	      % }
+	    </div>
+	</div>
+  <div class="main-content" id="main-content">
+	% if ($error) {
+		<span style="font-weight: bold; color: red;">Error: <%= $error; %></span><br/>
+	% }
+	<div id="site-title" class="site-title"><a href="/"><%= Minimojo::get_info('setting_value', 'settings', 'setting_name', 'site_name'); %></a></div>
+  	<h1><%= $profile_info[0][1]; %></h1>
+  	<div id="profile-left-right" class="profile-left-right">
+	  	<div id="profile-left" class="profile-left">
+			<div id="profile-pic-container-profile" class="profile-pic-container-profile">
+			   	<img src="https://anthony.paperhouse.cc/<%= Minimojo::get_user_profile_pic('id', $profile_info[0][0]); %>" class="profile-pic" id="profile-pic" />
+			  </div>
+			<div id="profile-info" class="profile-info">
+				<div id="profile-info-item" class="profile-info-item">Member since: <%= $profile_info[0][6]; %></div>
+				<div id="profile-info-item" class="profile-info-item"><%= Minimojo::get_count('posts', 'created_by_user_id', $profile_info[0][0]); %> posts</div>
+			</div>
+	  	</div>
+	  	<div id="profile-right" class="profile-right">
+	  		% if ($is_user_logged_in eq 'yes') {
+	  			<h3>Leave <%= $profile_info[0][1]; %> a message</h3>
+				<form method="post" id="interested" class="interested" name="user_comment" action="<%= url_for('profile'); %>" enctype="multipart/form-data">
+				  <div class="first-name-last-name">
+				    <div id="first-name" class="first-name">
+				      <div id="text-entry" class="text-entry">
+				      <textarea id="comment" name="comment" class="input_comment" rows="5" cols="50"></textarea>
+				      </div>
+				    </div>
+				  </div>
+		            <div id="form-action" class="form-action dontshow">
+		              <input type="text" id="user_id" name="user_id" value="<%= $profile_info[0][0]; %>">
+		              <input type="text" id="user" name="user" value="<%= $profile_info[0][1]; %>">
+		              <input type="text" id="author_id" name="author_id" value="<%= $active_info[0][0]; %>">
+		              <input type="text" id="author_id" name="author" value="<%= $active_info[0][1]; %>">
+		              <input type="text" id="action" name="action" value="user_profile_comment">
+		            </div>
+				   <div id="form-submit" class="form-submit">
+				    <input type="submit" value="Submit">
+				  </div>
+			</form>
+			% }
+			% if ($user_profile_comments) {
+				<div id="user-profile-comments" class="user-profile-comments">
+				% foreach my $profile_comments (@$user_profile_comments) {
+					<div id="user-profile-comment" class="user-profile-comment">
+						<div id="user-profile-comment-left" class="user-profile-comment-left">
+						% foreach my $author_id (@$profile_comments[3]) {
+							% foreach my $author (@$profile_comments[4]) {
+								<div id="user-profile-comment-author-profile-pic" class="user-profile-comment-author-profile-pic">
+									<a href="https://anthony.paperhouse.cc/profile?id=<%= $author_id; %>"><img src="https://anthony.paperhouse.cc/<%= Minimojo::get_user_profile_pic('id', $author_id); %>" /></a>
+								</div>
+								<div id="user-profile-comment-author" class="user-profile-comment-author">
+									<a href="https://anthony.paperhouse.cc/profile?id=<%= $author_id; %>" class="username_format"><%= $author; %></a>
+								</div>
+							% }
+						% }
+					</div>
+					<div id="user-profile-comment-right" class="user-profile-comment-right">
+						% foreach my $comment (@$profile_comments[5]) {
+							<div id="user-profile-comment-comment" class="user-profile-comment-comment">
+								<%= $comment; %>
+							</div>		
+						% }
+						% foreach my $time_posted (@$profile_comments[6]) {
+							<div id="user-profile-comment-time-posted" class="user-profile-comment-time-posted">
+								<small><%= $time_posted; %></small>
+							</div>		
+						% }
+					</div>
+				</div>
+				% }
+				</div>
+			% }
+	  	</div>
+  	</div>
+    </div>
+  </body>
+</html>

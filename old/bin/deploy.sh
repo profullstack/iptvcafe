@@ -22,4 +22,3 @@ done
 
 say "$HOST_PROJECT is live!"
 exit
-

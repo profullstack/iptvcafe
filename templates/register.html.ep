@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Register</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&#038;subset=latin,latin-ext' type='text/css' media='all'>
+    <link id="custom-google-fonts" href="https://fonts.googleapis.com/css?family=Libre+Franklin:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    %= include '_maincss'
+  </head>
+ <body>
+ 	<div class="main-content" id="main-content">
+ 		<h1>Register</h1>
+		% if ($error) {
+		  <span style="font-weight: bold; color: red;">Error: <%= $error; %></span><br/>
+		% }
+		 <div id="is-interested" class="is-interested">
+		  <form method="post" id="interested" class="interested" action="<%= url_for('register'); %>" enctype="multipart/form-data">
+		    <div class="first-name-last-name">
+		      <div id="first-name" class="first-name">
+		        <label for="new_username">Username *</label>
+		        <div id="text-entry" class="text-entry">
+		          <input type="text" id="new_username" name="new_username" class="input_name" value="" required>
+		        </div>
+		      </div>
+		      <div id="last-name" class="last-name">
+		        <label for="new_email">Email *</label>
+		        <div id="text-entry" class="text-entry">
+		          <input type="text" id="new_email" name="new_email" class="input_name" value="" required>
+		        </div>
+		    </div>
+		    </div>
+		    <div class="first-name-last-name">
+		    <div id="new-pw" class="first-name">
+		        <label for="new_pw">Password *</label>
+		        <div id="text-entry" class="text-entry">
+		          <input type="password" id="new_pw" name="new_pw" class="input_name" value="" required>
+		        </div>
+		      </div>
+		    <div id="new-pw-repeat" class="last-name">
+		        <label for="new_pw_repeat">Repeat Password *</label>
+		        <div id="text-entry" class="text-entry">
+		          <input type="password" id="new_pw_repeat" name="new_pw_repeat" class="input_name" value="" required>
+		        </div>
+		      </div>
+		    </div>
+		    <div id="terms-agree" class="terms-agree">
+		      <div id="checkbox-entry" class="checkbox-entry">
+		        <input type="checkbox" id="terms_agree" name="terms_agree" value="yes"><label for="terms_agree">I agree to the terms of service</label>
+		      </div>
+		    </div>
+		     <div id="form-submit" class="form-submit">
+		      <input type="submit" value="Submit">
+		    </div>
+		  </form>
+		</div>
+ 	</div>
+ </body>
+</html>

@@ -1,0 +1,163 @@
+% my @active_info;
+% if ($is_user_logged_in eq 'yes') {
+	% @active_info = @$active_user_info;
+% }
+% foreach my $topic_info (@$get_topic_info) {
+	% foreach my $topic_id (@$topic_info[0]) {
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    % foreach my $topic (@$topic_info[1]) {
+    	<title><%= $topic; %></title>
+    % }
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&#038;subset=latin,latin-ext' type='text/css' media='all'>
+    <link id="custom-google-fonts" href="https://fonts.googleapis.com/css?family=Libre+Franklin:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    %= include '_maincss'
+  </head>
+  <body>
+	<div id="top-nav" class="top-nav">
+	    <div id="top-nav-left" class="top-nav-left">
+	      [<a href="/">Home</a>]
+	      % if ($is_user_logged_in eq 'yes') {
+	       [<a href="/account">Account</a>] [<a href="/profile?id=<%= $active_info[0][0]; %>">View Profile</a>]
+	      % }
+	    </div>
+	    <div id="top-nav-right" class="top-nav-right">
+	      % if ($is_user_logged_in eq 'yes') {
+	      	% if (Minimojo::get_count('notifications', 'notification_status', 'unread', ' AND user_id = \''.$active_info[0][0].'\'') > 0) {
+	      		<strong>
+	      	% }
+	      	[<a href="/notifications">(<%= Minimojo::get_count('notifications', 'notification_status', 'unread', ' AND user_id = \''.$active_info[0][0].'\''); %>) Notifications</a>]
+	      	% if (Minimojo::get_count('notifications', 'notification_status', 'unread') > 0) {
+	      		</strong>
+	      	% }
+	      [<a href="/logout">Logout</a>]
+	      % }
+	      % else {
+	      [<a href="/login">Login</a>] [<a href="/register">Register</a>]
+	      % }
+	    </div>
+	</div>
+	% if ($error) {
+		<span style="font-weight: bold; color: red;">Error: <%= $error; %></span><br/>
+	% }
+  <div class="main-content" id="main-content">
+  	% foreach my $topic (@$topic_info[1]) {
+  		<div id="topic-header" class="topic-header">
+  			<div id="site-title" class="site-title"><a href="/"><%= Minimojo::get_info('setting_value', 'settings', 'setting_name', 'site_name'); %></a></div>
+	    	<h1><%= $topic; %></h1>
+		    % foreach my $board_id (@$topic_info[2]) {
+		    	% foreach my $forum_id (@$topic_info[3]) {
+		    		Topic in <a href="https://anthony.paperhouse.cc/boards?id=<%= $board_id; %>"><%= Minimojo::get_info('board_name', 'boards', 'id', $board_id, ' AND forum_id = \''.$forum_id.'\''); %></a> 
+		    	% }
+		    % }
+	    </div>
+    % }
+    <div id="topic-posts" class="topic-posts">
+    	% my $offset = 0;
+    	% if ($page) {
+    		% $offset = (($page * 20) - 20);
+    	% }
+    	% my $get_posts_by_topic = Minimojo::get_all_info('*', 'posts', 'topic_id', $topic_id, 'id', 'ASC', ' LIMIT 20 OFFSET '.$offset);
+    	% if ($get_posts_by_topic) {
+    		% foreach my $posts (@$get_posts_by_topic) {
+    			% foreach my $post_id (@$posts[0]) {
+    				<div id="post-<%= $post_id; %>" class="post">
+    					<div id="post-left-right" class="post-left-right">
+    						<div id="post-left" class="post-left">
+    							% foreach my $created_by_user_id (@$posts[5]) {
+    								% foreach my $created_by_user (@$posts[6]) {
+		    							<div id="post-user-info" class="post-user-info">
+		    								<div id="post-user-info-profile-pic" class="post-user-info-profile-pic">
+		    									<a href="https://anthony.paperhouse.cc/profile?id=<%= $created_by_user_id; %>"><img src="https://anthony.paperhouse.cc/<%= Minimojo::get_user_profile_pic('id', $created_by_user_id); %>" /></a>
+		    								</div>
+		    								<div id="post-user-profile" class="post-user-profile">
+		    									<a href="https://anthony.paperhouse.cc/profile?id=<%= $created_by_user_id; %>" class="username_format"><%= $created_by_user; %></a>
+		    									% if (Minimojo::get_info('user_role', 'users', 'id', $created_by_user_id) eq 'banned') {
+		    										Banned
+		    									% }
+		    								</div>
+		    								% if (($is_user_logged_in eq 'yes') and ($active_info[0][4] eq 'admin')) {
+		    									[<a href="https://anthony.paperhouse.cc/admin?action=edit&type=user&id=<%= $created_by_user_id; %>" target="_blank">Edit user</a>]
+		    								% }
+		    								% elsif (($is_user_logged_in eq 'yes') and ($active_info[0][4] eq 'mod')) {
+		    									[<a href="https://anthony.paperhouse.cc/mod?action=ban&id=<%= $created_by_user_id; %>" target="_blank">Ban/unban user</a>]
+		    								% }
+		    							</div>
+    								% }
+    							% }
+    						</div>
+    						<div id="post-right" class="post-right">
+    							% foreach my $post_body (@$posts[1]) {
+    								% foreach my $response_to (@$posts[8]) {
+    									% if (($response_to) and ($response_to ne '')) {
+    										<small><em>Response to <a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>#post-<%= $response_to; %>" target="_blank"><%= Minimojo::get_info('created_by_user', 'posts', 'id', $response_to); %></a></em></small>
+    									% }
+    								% }
+    								<div id="post-<%= $post_id; %>-body" class="post-body">
+    									<%= $post_body; %>
+    								</div>
+    							% }
+    							% if ($is_user_logged_in eq 'yes') {
+    								[<a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>&reply_to=<%= $post_id; %>#reply">Reply</a>]
+    							% }
+    						</div>
+    					</div>
+    				</div>
+	    			% if (($active_info[0][4] eq 'admin') or ($active_info[0][4] eq 'mod')) {
+	    				[<a href="https://anthony.paperhouse.cc/<%= $active_info[0][4]; %>?action=delete&type=post&id=<%= $post_id; %>">Delete post</a>]
+	    			% }
+    			% }
+    		% }
+    	% }
+    	% if ($is_user_logged_in eq 'yes') {
+    		<div id="reply" class="reply">
+				<h3>Reply</h3>
+				% if (($reply_to) and ($reply_to ne '')) {
+					Replying to <a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>#post-<%= $reply_to; %>" target="_blank"><%= Minimojo::get_info('created_by_user', 'posts', 'id', $reply_to); %></a>
+				% }
+				<form method="post" id="interested" class="interested" name="post_reply" action="<%= url_for('posts'); %>" enctype="multipart/form-data">
+				  <div class="first-name-last-name">
+				    <div id="first-name" class="first-name">
+				      <div id="text-entry" class="text-entry">
+				      <textarea id="post_body" name="post_body" class="input_comment" rows="5" cols="50"></textarea>
+				      </div>
+				    </div>
+				  </div>
+				  <div id="form-action" class="form-action dontshow">
+					<input type="text" id="topic_id" name="topic_id" value="<%= $topic_id; %>">
+					% foreach my $board_id (@$topic_info[2]) {
+						<input type="text" id="board_id" name="board_id" value="<%= $board_id; %>">
+					% }
+					% foreach my $forum_id (@$topic_info[3]) {
+						<input type="text" id="forum_id" name="forum_id" value="<%= $forum_id; %>">
+					% }
+					<input type="text" id="created_by_user_id" name="created_by_user_id" value="<%= $active_info[0][0]; %>">
+					<input type="text" id="created_by_user" name="created_by_user" value="<%= $active_info[0][1]; %>">
+					<input type="text" id="action" name="action" value="post_reply">
+					<input type="text" id="reply_to" name="reply_to" value="<%= $reply_to; %>">
+					% my $pages = ((Minimojo::get_count('posts', 'topic_id', $topic_id)/20) + 1);
+					% $pages =~ s/\..*//;
+					<input type="text" id="page" name="page" value="<%= $pages; %>">
+				   </div>
+				   <div id="form-submit" class="form-submit">
+				    <input type="submit" value="Submit">
+				  </div>
+				</form>
+			</div>
+			% if (Minimojo::get_count('posts', 'topic_id', $topic_id) > 20) {
+				% my $page_count = ((Minimojo::get_count('posts', 'topic_id', $topic_id)/20) + 1);
+				% $page_count =~ s/\..*//;
+				% my $page_counter = 0;
+				% while ($page_counter < $page_count) {
+					[<a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>&page=<%= ($page_counter+1); %>"><%= ($page_counter+1); %></a>]
+					% $page_counter++;
+				% }
+			% }
+    	% }
+    </div>
+  </div>
+  </body>
+</html>
+	% }
+% }

@@ -18,4 +18,3 @@ cpanm --installdeps --sudo .
 sudo /etc/init.d/nginx reload
 sudo systemctl daemon-reload
 sudo systemctl restart ${META_SERVICE}
-
