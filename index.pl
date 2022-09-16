@@ -21,6 +21,7 @@ my $domain = $ENV{'DOMAIN'};
 my $db = $ENV{'DB'};
 my $db_user = $ENV{'DB_USER'};
 my $db_pw = $ENV{'DB_PASS'};
+my $mailgun = $ENV{'MAILGUN'};
 
 
 # --------------------------------------------------
