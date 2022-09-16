@@ -9,6 +9,7 @@ use strict;
 use warnings;
 use DBI;
 use Digest::MD5 qw(md5 md5_hex md5_base64);
+use Email::Sender::Transport::Mailgun qw( );
 use Dotenv -load => qw(.env .env.local);
 
 my $domain = $ENV{'DOMAIN'};
@@ -16,6 +17,7 @@ my $db = $ENV{'DB'};
 my $db_user = $ENV{'DB_USER'};
 my $db_pw = $ENV{'DB_PASS'};
 my $mailgun = $ENV{'MAILGUN'};
+my $mailgun_domain = $ENV{'MAILGUN_DOMAIN'};
 
 sub new_user_check {
 
@@ -797,6 +799,17 @@ sub insert {
 	my $insert = eval { $dbh->prepare('INSERT INTO '.$table.' ('.$columns.') VALUES ('.$values.')') };
 		$insert->execute();
 
+}
+
+sub send_email {
+	my $transport = Email::Sender::Transport::Mailgun->new(
+			api_key => $mailgun,
+			domain  => $mailgun_domain
+	);
+
+	my $message = 'hello world'; 
+
+	sendmail($message, { transport => $transport });
 }
 
 1;
