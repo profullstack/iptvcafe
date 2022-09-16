@@ -15,10 +15,13 @@ use File::Basename;
 use File::Path 'mkpath';
 use lib dirname (__FILE__);
 use Minimojo;
+use Dotenv -load => qw(.env .env.local);
 
-my $db = '';
-my $db_user = '';
-my $db_pw = '';
+my $domain = $ENV{'DOMAIN'};
+my $db = $ENV{'DB'};
+my $db_user = $ENV{'DB_USER'};
+my $db_pw = $ENV{'DB_PASS'};
+
 
 # --------------------------------------------------
 

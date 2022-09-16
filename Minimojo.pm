@@ -9,11 +9,12 @@ use strict;
 use warnings;
 use DBI;
 use Digest::MD5 qw(md5 md5_hex md5_base64);
+use Dotenv -load => qw(.env .env.local);
 
-my $domain = 'https://anthony.paperhouse.cc/';
-my $db = '';
-my $db_user = '';
-my $db_pw = '';
+my $domain = $ENV{'DOMAIN'};
+my $db = $ENV{'DB'};
+my $db_user = $ENV{'DB_USER'};
+my $db_pw = $ENV{'DB_PASS'};
 
 sub new_user_check {
 
