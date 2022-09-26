@@ -140,6 +140,7 @@ DROP TABLE IF EXISTS `tags`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `topic_id` varchar(255) NOT NULL,
   `tag` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -164,7 +165,6 @@ CREATE TABLE `topics` (
   `replies` varchar(255) NOT NULL,
   `last_post_by` varchar(255) NOT NULL,
   `last_post_id` varchar(155) DEFAULT NULL,
-  `tags` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -217,4 +217,4 @@ CREATE TABLE `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-26 17:12:57
+-- Dump completed on 2022-09-26 17:57:33
