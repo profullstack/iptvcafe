@@ -51,6 +51,11 @@
 		    		Topic in <a href="https://anthony.paperhouse.cc/boards?id=<%= $board_id; %>"><%= Minimojo::get_info('board_name', 'boards', 'id', $board_id, ' AND forum_id = \''.$forum_id.'\''); %></a> 
 		    	% }
 		    % }
+		    <br/>
+		    % foreach my $post_tags (@$topic_info[11]) {
+		    	% my @tags = split('\, ', $post_tags);
+		   			<small>Tagged: <% foreach my $tag (@tags) { %><a href="https://anthony.paperhouse.cc/tagged/<%= $tag; %>" target="_blank"><%= $tag; %> <% } %></small>
+		    % }
 	    </div>
     % }
     <div id="topic-posts" class="topic-posts">
@@ -161,3 +166,4 @@
 </html>
 	% }
 % }
+
