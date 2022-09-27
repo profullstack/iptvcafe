@@ -57,7 +57,7 @@
 		    	<small>Tagged: 
 		    	% foreach my $post_tags (@$get_post_tags_by_topic) {
 		    		% foreach my $tag (@$post_tags[2]) {
-		    			<a href="https://anthony.paperhouse.cc/tagged/?tag=<%= $tag; %>" target="_blank"><%= $tag; %>
+		    			<a href="https://anthony.paperhouse.cc/tagged?tag=<%= $tag; %>" target="_blank"><%= $tag; %>
 		    		% }
 		    	% }
 		    	</small>
