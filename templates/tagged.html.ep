@@ -1,0 +1,56 @@
+% my @active_info = @$active_user_info;
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Tagged</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&#038;subset=latin,latin-ext' type='text/css' media='all'>
+    <link id="custom-google-fonts" href="https://fonts.googleapis.com/css?family=Libre+Franklin:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+    %= include '_maincss'
+  </head>
+  <body>
+  <div id="top-nav" class="top-nav">
+    <div id="top-nav-left" class="top-nav-left">
+      [<a href="/">Home</a>] [<a href="/account">Account</a>] [<a href="/profile?id=<%= $active_info[0][0]; %>">View Profile</a>]
+    </div>
+    <div id="top-nav-right" class="top-nav-right">
+    	<div id="search-bar" class="search-bar">
+    		<form method="post" id="search" class="search" action="<%= url_for('search'); %>" enctype ="multipart/form-data"><input type="text" id="q" name="q" class="q" placeholder="Search"></form>
+    	</div>
+    	% if (Minimojo::get_count('notifications', 'notification_status', 'unread', ' AND user_id = \''.$active_info[0][0].'\'') > 0) {
+	    	<strong>
+	    % }
+	    [<a href="/notifications">(<%= Minimojo::get_count('notifications', 'notification_status', 'unread', ' AND user_id = \''.$active_info[0][0].'\''); %>) Notifications</a>]
+	    % if (Minimojo::get_count('notifications', 'notification_status', 'unread') > 0) {
+	    	</strong>
+	    % }
+    	[<a href="/logout">Logout</a>]
+    </div>
+  </div>
+	% if ($error) {
+		<span style="font-weight: bold; color: red;">Error: <%= $error; %></span><br/>
+	% }
+  <div class="main-content" id="main-content">
+  	<div id="site-title" class="site-title"><a href="/"><%= Minimojo::get_info('setting_value', 'settings', 'setting_name', 'site_name'); %></a></div>
+    % if (($tag) and ($tag ne '')) {
+    	<h1>Tagged "<%= $tag; %>"</h1>
+    	% my $get_topics_by_tag = Minimojo::get_all_info('*', 'tags', 'tag', $tag, 'id', 'ASC');
+    	% if ($get_topics_by_tag) {
+    		<div id="tags-results" class="tags-results">
+    		% foreach my $tags_results (@$get_topics_by_tag) {
+    			% foreach my $topic_id (@$tags_results[1]) {
+    				<div id="tag-result" class="tag-result"><a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>"><%= Minimojo::get_info('topic', 'topics', 'id', $topic_id); %></div>
+    			% }
+    		% }
+    		</div>
+    	% }
+    	% else {
+    		<div id="tags-no-results" class="tags-no-results">No results for <%= $tag; %></div>
+    	% }
+    % }
+    % else {
+    	<h1>Tagged</h1>
+    	<div id="tags-no-tag" class="tags-no-tag">No tag specified!</div>
+    % }
+    </div>
+  </body>
+</html>

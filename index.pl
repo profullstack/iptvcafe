@@ -1871,6 +1871,57 @@ post '/search' => sub {
 
 # --------------------------------------------------
 
+get '/tagged' => sub {
+
+	my $self = shift;
+	my $dbh = DBI->connect('DBI:mysql:'.$db, $db_user, $db_pw);
+
+	if ($self->session('session')) {
+
+		my $user_role = Minimojo::get_info('user_role', 'users', 'user', $self->session('username'));
+
+		if (!$user_role) {
+
+			$self->redirect_to('/error?code=02');
+
+		}
+
+		elsif (($user_role eq 'unemailed') or ($user_role eq 'unconfirmed')) {
+
+			$self->redirect_to('/account/pending');
+
+		}
+
+		elsif ($user_role eq 'banned') {
+
+			$self->redirect_to('/error?code=Banned');
+
+		}
+
+		else {
+
+			my $active_user_info = Minimojo::get_all_info('*', 'users', 'user', $self->session('username'));
+			my $tag = Minimojo::clean_comment($self->param('tag'));
+			my $error = $self->param('error');
+
+			$self->stash(active_user_info => $active_user_info, tag => $tag, error => $error);
+
+			$self->render(template => 'tagged');
+
+		}
+
+	}
+
+	else {
+
+		$self->redirect_to('/login');
+
+	}	
+
+} => 'tagged';
+
+# --------------------------------------------------
+
 any '/chat' => sub {
 
 	my $self = shift;
@@ -1985,4 +2036,5 @@ get '/error' => sub {
 app->start;
 
 # --------------------------------------------------
+
 
