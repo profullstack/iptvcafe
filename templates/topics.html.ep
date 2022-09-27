@@ -52,9 +52,15 @@
 		    	% }
 		    % }
 		    <br/>
-		    % foreach my $post_tags (@$topic_info[11]) {
-		    	% my @tags = split('\, ', $post_tags);
-		   			<small>Tagged: <% foreach my $tag (@tags) { %><a href="https://anthony.paperhouse.cc/tagged/<%= $tag; %>" target="_blank"><%= $tag; %> <% } %></small>
+		    % my $get_post_tags_by_topic = Minimojo::get_all_info('*', 'tags', 'topic_id', $topic_id, 'id', 'ASC');
+		    % if ($get_post_tags_by_topic) {
+		    	<small>Tagged: 
+		    	% foreach my $post_tags (@$get_post_tags_by_topic) {
+		    		% foreach my $tag (@$post_tags[2]) {
+		    			<a href="https://anthony.paperhouse.cc/tagged/<%= $tag; %>" target="_blank"><%= $tag; %>
+		    		% }
+		    	% }
+		    	</small>
 		    % }
 	    </div>
     % }
