@@ -57,14 +57,24 @@
 	    	<div id="new-topic" class="new-topic">
 				<h3>New Topic</h3>
 				<form method="post" id="interested" class="interested" name="new_topic" action="<%= url_for('topics'); %>" enctype="multipart/form-data">
-				  <div class="first-name-last-name">
-				    <div id="first-name" class="first-name">
-				      <div id="text-entry" class="text-entry">
-				      	<input type="text" id="topic" name="topic" class="input-text" value="">
-				      </div>
-				      <div id="text-entry" class="text-entry">
-				      	<textarea id="post_body" name="post_body" class="input_comment" rows="5" cols="50"></textarea>
-				      </div>
+				  <div class="is-interested">
+					  <div class="first-name-last-name">
+					    <div id="first-name" class="first-name">
+					      <label for="topic">Topic: </label>
+					      <div id="text-entry" class="text-entry">
+					      	<input type="text" id="topic" name="topic" class="input-text" value="">
+					      </div>
+					      <label for="post_body">Body: </label>
+					      <div id="text-entry" class="text-entry">
+					      	<textarea id="post_body" name="post_body" class="input_comment" rows="5" cols="50"></textarea>
+					      </div>
+					      <label for="tags">Tags: </label>
+					      <div id="text-entry" class="text-entry">
+					      	<input type="text" id="tags" name="tags" class="input-text" value="">
+					      	<div id="tag-info" class="tag-info"><small><em>Tags should be comma separated and only contain alphanumeric characters</em></small><div>
+					      </div>
+					    </div>
+					  </div>
 				  </div>
 				  <div id="form-action" class="form-action dontshow">
 					<input type="text" id="board_id" name="board_id" value="<%= $board_id; %>">
@@ -147,3 +157,4 @@
 </html>
 	% }
 % }
+

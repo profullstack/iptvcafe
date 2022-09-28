@@ -887,15 +887,52 @@ post '/topics' => sub {
 
 					elsif (length($self->param('post_body')) > 2000) {
 
-						$self->redirect_to('/boards?id='.$self->param('topic_id').'&error=Posts cannot exceed 2000 characters');
+						$self->redirect_to('/boards?id='.$self->param('board_id').'&error=Posts cannot exceed 2000 characters');
 
 					}
 
 					else {
 
+						my $has_tags = '';
+
+						if (($self->param('tags')) and ($self->param('tags') ne '')) {
+
+							if ($self->param('tags') !~ m/^[0-9A-Za-z\s+\,]+$/) {
+
+								$self->redirect_to('/boards?id='.$self->param('board_id').'&error=Tags may only contain alphanumeric characters');
+
+							}
+
+							else {
+
+								$has_tags = 'yes';
+
+							}
+
+						}
+
 						my @add_topic = Minimojo::add_topic($self->param('topic'), $self->param('board_id'), $self->param('forum_id'), $self->param('created_by_user_id'), $self->session('username'), $self->param('post_body'));
 
 						if ($add_topic[0] eq 'success') {
+
+							if ($has_tags eq 'yes') {
+
+								my @topic_tags = split('\,', $self->param('tags'));
+								my $tag_count = scalar(@topic_tags);
+								my $tag_counter = 0;
+
+								while ($tag_counter < $tag_count) {
+
+									my $tag = shift(@topic_tags);
+										$tag = Minimojo::clean_comment($tag);
+
+									Minimojo::insert('tags', 'topic_id, tag', '\''.$add_topic[1].'\', \''.$tag.'\'');
+
+									$tag_counter++;
+
+								}
+
+							}
 
 							$self->redirect_to('/topics?id='.$add_topic[1]);
 
@@ -2036,5 +2073,6 @@ get '/error' => sub {
 app->start;
 
 # --------------------------------------------------
+
 
 
