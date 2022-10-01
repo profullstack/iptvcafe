@@ -35,10 +35,12 @@
     	<h1>Tagged "<%= $tag; %>"</h1>
     	% my $get_topics_by_tag = Minimojo::get_all_info('*', 'tags', 'tag', $tag, 'id', 'ASC');
     	% if ($get_topics_by_tag) {
-    		<div id="tags-results" class="tags-results">
+    		<div id="tags-results-all" class="tags-results-all">
     		% foreach my $tags_results (@$get_topics_by_tag) {
     			% foreach my $topic_id (@$tags_results[1]) {
-    				<div id="tag-result" class="tag-result"><a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>"><%= Minimojo::get_info('topic', 'topics', 'id', $topic_id); %></div>
+            <div id="tags-results" class="tags-results">
+    				  <div id="tag-result" class="tag-result"><a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>"><%= Minimojo::get_info('topic', 'topics', 'id', $topic_id); %></div>
+            </div>
     			% }
     		% }
     		</div>

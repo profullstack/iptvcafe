@@ -30,6 +30,11 @@
 		        </div>
 		      </div>
 		    </div>
+		    <div id="form-action" class="form-action dontshow">
+		    	% if (($return) and ($return ne '')) {
+		    		<input type="text" id="return" name="return" value="<%= $return; %>">
+		   	 	% }
+		    </div>
 		     <div id="form-submit" class="form-submit">
 		      <input type="submit" value="Submit">
 		    </div>
@@ -38,3 +43,4 @@
  	</div>
  </body>
 </html>
+

@@ -232,6 +232,17 @@ a.username_format_lite {
   text-decoration: none;
   font-weight: bold;
 }
+.tags-results {
+  display: flex;
+  background: #eee;
+  padding: 1%;
+  margin-bottom: 2%;
+}
+.tag-result a {
+  color: #4d4d4f;
+  text-decoration: none;
+  font-weight: bold;
+}
 .site-title a {
   color: #4d4d4f;
   text-decoration: none;

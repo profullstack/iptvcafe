@@ -326,7 +326,7 @@ get '/account' => sub {
 
 	else {
 
-		$self->redirect_to('/login');
+		$self->redirect_to('/login?return='.Minimojo::uri_encode('/account'));
 
 	}
 
@@ -456,9 +456,9 @@ post '/account' => sub {
 							}
 
 							my $new_img_name = Minimojo::gen_token().'.'.$filetype;
-								$new_img->move_to('/home/anthony/anthony/public/userdata/'.$new_img_name);
+								$new_img->move_to('public/userdata/'.$new_img_name);
 
-							if (-e '/home/anthony/anthony/public/userdata/'.$new_img_name) {
+							if (-e 'public/userdata/'.$new_img_name) {
 
 								my $update_user_pic = Minimojo::update_user_pic($self->param('user_id'), $new_img_name);
 
@@ -508,7 +508,7 @@ post '/account' => sub {
 
 	else {
 
-		$self->redirect_to('/login');
+		$self->redirect_to('/login?return='.Minimojo::uri_encode('/account'));
 
 	}
 
@@ -547,7 +547,7 @@ get '/account/pending' => sub {
 
 	else {
 
-		$self->redirect_to('/login');
+		$self->redirect_to('/login?return='.Minimojo::uri_encode('/account/pending'));
 
 	}
 
@@ -1579,7 +1579,7 @@ get '/mod' => sub {
 
 	else {
 
-		$self->redirect_to('/login');
+		$self->redirect_to('/login?return='.Minimojo::uri_encode('/mod'));
 
 	}
 
@@ -1739,7 +1739,7 @@ post '/mod' => sub {
 
 	else {
 
-		$self->redirect_to('/login');
+		$self->redirect_to('/login?return='.Minimojo::uri_encode('/mod'));
 
 	}
 
@@ -1792,7 +1792,7 @@ get '/notifications' => sub {
 
 	else {
 
-		$self->redirect_to('/login');
+		$self->redirect_to('/login?return='.Minimojo::uri_encode('/notifications'));
 
 	}
 
@@ -1847,7 +1847,7 @@ get '/search' => sub {
 
 	else {
 
-		$self->redirect_to('/login');
+		$self->redirect_to('/login?return='.Minimojo::uri_encode('/search'.'?q='.$self->param('q')));
 
 	}	
 
@@ -1900,7 +1900,7 @@ post '/search' => sub {
 
 	else {
 
-		$self->redirect_to('/login');
+		$self->redirect_to('/login?return='.Minimojo::uri_encode('/search'.'?q='.$self->param('q')));
 
 	}
 
@@ -1951,7 +1951,7 @@ get '/tagged' => sub {
 
 	else {
 
-		$self->redirect_to('/login');
+		$self->redirect_to('/login?return='.Minimojo::uri_encode('/tagged'.'?tag='.$self->param('tag')));
 
 	}	
 
@@ -2073,6 +2073,7 @@ get '/error' => sub {
 app->start;
 
 # --------------------------------------------------
+
 
 
 

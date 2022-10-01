@@ -812,4 +812,48 @@ sub send_email {
 	sendmail($message, { transport => $transport });
 }
 
+sub uri_encode {
+
+	my ($string) = (shift);
+
+	my @string_parts = split(//, $string);
+		my $string_length = scalar(@string_parts);
+
+	my $translated_string = '';
+	my $counter = 0;
+
+	while ($counter < $string_length) {
+
+		my $character = $string_parts[$counter];
+
+		my %uri_character_map = (
+			'!' => '21%', '@' => '40%', '#' => '23%', '$' => '24%', '%' => '25%', '^' => '%5E', '&' => '26%',
+			'*' => '%2A', '(' => '28%', ')' => '29%', '=' => '%3D', '+' => '%2B', '[' => '%5B', ']' => '%5D',
+			'{' => '%7B', '}' => '%7D', '|' => '%7C', '\\' => '%5C', ';' => '%3B', ':' => '%3A', '\'' => '27%',
+			'"' => '22%', ',' => '%2C', '<' => '%3C', '>' => '%3E', '?' => '%3F', '/' => '%2F', '`' => '60%',
+			);
+
+		if ($uri_character_map{$character}) {
+
+			my $translated_character = $uri_character_map{$character};
+				$translated_string = $translated_string.$translated_character;
+
+		}
+
+		else {
+
+			$translated_string = $translated_string.$character;
+
+		}
+
+		$counter++;
+
+
+	}
+
+	return ($translated_string);
+
+}
+
 1;
+
