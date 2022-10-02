@@ -164,10 +164,12 @@ get '/login' => sub {
 
 	else {
 
-	my $error = $self->param('error');
-		$self->stash(error => $error);
+		my $error = $self->param('error');
+		my $return = $self->param('return');
+		
+		$self->stash(error => $error, 'return' => $return);
 
-	$self->render(template => 'login');
+		$self->render(template => 'login');
 
 	}
 
@@ -205,7 +207,17 @@ post '/login' => sub {
 					$self->session('session' => $new_user_session);
 					$self->session('username' => $self->param('username'));
 
-					$self->redirect_to('/account');
+					if ($self->param('return')) {
+
+						$self->redirect_to($self->param('return'));
+
+					}
+
+					else {
+
+						$self->redirect_to('/account');
+
+					}
 
 				}
 
@@ -2073,6 +2085,7 @@ get '/error' => sub {
 app->start;
 
 # --------------------------------------------------
+
 
 
 
