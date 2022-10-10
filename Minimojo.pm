@@ -18,6 +18,7 @@ my $db_user = $ENV{'DB_USER'};
 my $db_pw = $ENV{'DB_PASS'};
 my $mailgun = $ENV{'MAILGUN'};
 my $mailgun_domain = $ENV{'MAILGUN_DOMAIN'};
+my $mailgun_registration_sender $ENV{'MAILGUN_REG_SENDER'};
 
 sub new_user_check {
 
@@ -197,7 +198,7 @@ sub gen_email_verification_token {
 		$add_email_verification_token->execute();
 
 	# will update this
-	my $sender = 'registration@anthony.paperhouse.cc';
+	my $sender = $mailgun_registration_sender;
 	my $to = $email;
 	#my $from = 'From Sender <'.$sender.'>';
 	my $subject = 'Account Registration';
@@ -853,5 +854,6 @@ sub uri_encode {
 }
 
 1;
+
 
 
