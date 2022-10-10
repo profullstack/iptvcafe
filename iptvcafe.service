@@ -8,8 +8,8 @@ Type=simple
 Restart=always
 RestartSec=1
 User=ubuntu
-WorkingDirectory=/home/ubuntu/www/iptvcafe.com/
-ExecStart=/home/ubuntu/www/iptvcafe.com/bin/start.sh
+WorkingDirectory=/home/ubuntu/www/iptvcafe.com/mojo_forum
+ExecStart=/home/ubuntu/www/iptvcafe.com/mojo_forum/bin/start.sh
 StandardOutput=append:/var/log/iptvcafe.log
 StandardError=append:/var/log/iptvcafe.error.log
 
