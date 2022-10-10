@@ -46,7 +46,7 @@
   	</div>
     <h1><%= Minimojo::get_info('setting_value', 'settings', 'setting_name', 'site_name'); %></h1>
     % if (($active_info[0][4]) and ($active_info[0][4] eq 'admin')) {
-    	[<a href="https://anthony.paperhouse.cc/admin?action=add&type=forum">Add forum</a>]
+    	[<a href="/admin?action=add&type=forum">Add forum</a>]
     % }
     % if ($are_forums) {
     	<div id="forums-list" class="forums-list">
@@ -63,12 +63,12 @@
 			    			% }
 	    				</div>
 	    				% if (($active_info[0][4]) and ($active_info[0][4] eq 'admin')) {
-	    					[<a href="https://anthony.paperhouse.cc/admin?action=delete&type=forum&id=<%= $forum_id; %>">Delete forum</a>]
+	    					[<a href="/admin?action=delete&type=forum&id=<%= $forum_id; %>">Delete forum</a>]
 	    				% }
 	    			% }
 	    			% my $forum_boards = Minimojo::get_all_info('*', 'boards', 'forum_id', $forum_id, 'id', 'ASC');
 				    % if (($active_info[0][4]) and ($active_info[0][4] eq 'admin')) {
-				    	[<a href="https://anthony.paperhouse.cc/admin?action=add&type=board&forum_id=<%= $forum_id; %>">Add board</a>]
+				    	[<a href="/admin?action=add&type=board&forum_id=<%= $forum_id; %>">Add board</a>]
 				    % }
 	    			% if ($forum_boards) {
 	    				<div id="forum-<%= $forum_id; %>-boards" class="forum-boards">
@@ -77,7 +77,7 @@
 				    				<div id="board-<%= $board_id; %>" class="board">
 					    				% foreach my $board_title (@$boards[1]) {
 						    				<div id="board-<%= $board_id; %>-title" class="board-title">
-						    					<h3><a href="https://anthony.paperhouse.cc/boards?id=<%= $board_id; %>"><%= $board_title; %></a></h3>
+						    					<h3><a href="/boards?id=<%= $board_id; %>"><%= $board_title; %></a></h3>
 						    					% foreach my $board_info (@$boards[2]) {
 								    				<div id="board-info" class="board-info">
 								    					<small><%= $board_info; %></small>
@@ -85,7 +85,7 @@
 						    					% }
 						    				</div>
 						    				% if (($active_info[0][4]) and ($active_info[0][4] eq 'admin')) {
-						    					[<a href="https://anthony.paperhouse.cc/admin?action=delete&type=board&id=<%= $board_id; %>">Delete board</a>]
+						    					[<a href="/admin?action=delete&type=board&id=<%= $board_id; %>">Delete board</a>]
 						    				% }
 					    				% }
 				    				</div>

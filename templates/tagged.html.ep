@@ -39,7 +39,7 @@
     		% foreach my $tags_results (@$get_topics_by_tag) {
     			% foreach my $topic_id (@$tags_results[1]) {
             <div id="tags-results" class="tags-results">
-    				  <div id="tag-result" class="tag-result"><a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>"><%= Minimojo::get_info('topic', 'topics', 'id', $topic_id); %></div>
+    				  <div id="tag-result" class="tag-result"><a href="/topics?id=<%= $topic_id; %>"><%= Minimojo::get_info('topic', 'topics', 'id', $topic_id); %></div>
             </div>
     			% }
     		% }

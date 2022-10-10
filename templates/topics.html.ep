@@ -48,7 +48,7 @@
 	    	<h1><%= $topic; %></h1>
 		    % foreach my $board_id (@$topic_info[2]) {
 		    	% foreach my $forum_id (@$topic_info[3]) {
-		    		Topic in <a href="https://anthony.paperhouse.cc/boards?id=<%= $board_id; %>"><%= Minimojo::get_info('board_name', 'boards', 'id', $board_id, ' AND forum_id = \''.$forum_id.'\''); %></a> 
+		    		Topic in <a href="/boards?id=<%= $board_id; %>"><%= Minimojo::get_info('board_name', 'boards', 'id', $board_id, ' AND forum_id = \''.$forum_id.'\''); %></a> 
 		    	% }
 		    % }
 		    <br/>
@@ -57,7 +57,7 @@
 		    	<small>Tagged: 
 		    	% foreach my $post_tags (@$get_post_tags_by_topic) {
 		    		% foreach my $tag (@$post_tags[2]) {
-		    			<a href="https://anthony.paperhouse.cc/tagged?tag=<%= $tag; %>" target="_blank"><%= $tag; %>
+		    			<a href="/tagged?tag=<%= $tag; %>" target="_blank"><%= $tag; %>
 		    		% }
 		    	% }
 		    	</small>
@@ -80,19 +80,19 @@
     								% foreach my $created_by_user (@$posts[6]) {
 		    							<div id="post-user-info" class="post-user-info">
 		    								<div id="post-user-info-profile-pic" class="post-user-info-profile-pic">
-		    									<a href="https://anthony.paperhouse.cc/profile?id=<%= $created_by_user_id; %>"><img src="https://anthony.paperhouse.cc/<%= Minimojo::get_user_profile_pic('id', $created_by_user_id); %>" /></a>
+		    									<a href="/profile?id=<%= $created_by_user_id; %>"><img src="/<%= Minimojo::get_user_profile_pic('id', $created_by_user_id); %>" /></a>
 		    								</div>
 		    								<div id="post-user-profile" class="post-user-profile">
-		    									<a href="https://anthony.paperhouse.cc/profile?id=<%= $created_by_user_id; %>" class="username_format"><%= $created_by_user; %></a>
+		    									<a href="/profile?id=<%= $created_by_user_id; %>" class="username_format"><%= $created_by_user; %></a>
 		    									% if (Minimojo::get_info('user_role', 'users', 'id', $created_by_user_id) eq 'banned') {
 		    										Banned
 		    									% }
 		    								</div>
 		    								% if (($is_user_logged_in eq 'yes') and ($active_info[0][4] eq 'admin')) {
-		    									[<a href="https://anthony.paperhouse.cc/admin?action=edit&type=user&id=<%= $created_by_user_id; %>" target="_blank">Edit user</a>]
+		    									[<a href="/admin?action=edit&type=user&id=<%= $created_by_user_id; %>" target="_blank">Edit user</a>]
 		    								% }
 		    								% elsif (($is_user_logged_in eq 'yes') and ($active_info[0][4] eq 'mod')) {
-		    									[<a href="https://anthony.paperhouse.cc/mod?action=ban&id=<%= $created_by_user_id; %>" target="_blank">Ban/unban user</a>]
+		    									[<a href="/mod?action=ban&id=<%= $created_by_user_id; %>" target="_blank">Ban/unban user</a>]
 		    								% }
 		    							</div>
     								% }
@@ -102,7 +102,7 @@
     							% foreach my $post_body (@$posts[1]) {
     								% foreach my $response_to (@$posts[8]) {
     									% if (($response_to) and ($response_to ne '')) {
-    										<small><em>Response to <a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>#post-<%= $response_to; %>" target="_blank"><%= Minimojo::get_info('created_by_user', 'posts', 'id', $response_to); %></a></em></small>
+    										<small><em>Response to <a href="/topics?id=<%= $topic_id; %>#post-<%= $response_to; %>" target="_blank"><%= Minimojo::get_info('created_by_user', 'posts', 'id', $response_to); %></a></em></small>
     									% }
     								% }
     								<div id="post-<%= $post_id; %>-body" class="post-body">
@@ -110,13 +110,13 @@
     								</div>
     							% }
     							% if ($is_user_logged_in eq 'yes') {
-    								[<a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>&reply_to=<%= $post_id; %>#reply">Reply</a>]
+    								[<a href="/topics?id=<%= $topic_id; %>&reply_to=<%= $post_id; %>#reply">Reply</a>]
     							% }
     						</div>
     					</div>
     				</div>
 	    			% if (($active_info[0][4] eq 'admin') or ($active_info[0][4] eq 'mod')) {
-	    				[<a href="https://anthony.paperhouse.cc/<%= $active_info[0][4]; %>?action=delete&type=post&id=<%= $post_id; %>">Delete post</a>]
+	    				[<a href="/<%= $active_info[0][4]; %>?action=delete&type=post&id=<%= $post_id; %>">Delete post</a>]
 	    			% }
     			% }
     		% }
@@ -125,7 +125,7 @@
     		<div id="reply" class="reply">
 				<h3>Reply</h3>
 				% if (($reply_to) and ($reply_to ne '')) {
-					Replying to <a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>#post-<%= $reply_to; %>" target="_blank"><%= Minimojo::get_info('created_by_user', 'posts', 'id', $reply_to); %></a>
+					Replying to <a href="/topics?id=<%= $topic_id; %>#post-<%= $reply_to; %>" target="_blank"><%= Minimojo::get_info('created_by_user', 'posts', 'id', $reply_to); %></a>
 				% }
 				<form method="post" id="interested" class="interested" name="post_reply" action="<%= url_for('posts'); %>" enctype="multipart/form-data">
 				  <div class="first-name-last-name">
@@ -161,7 +161,7 @@
 				% $page_count =~ s/\..*//;
 				% my $page_counter = 0;
 				% while ($page_counter < $page_count) {
-					[<a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>&page=<%= ($page_counter+1); %>"><%= ($page_counter+1); %></a>]
+					[<a href="/topics?id=<%= $topic_id; %>&page=<%= ($page_counter+1); %>"><%= ($page_counter+1); %></a>]
 					% $page_counter++;
 				% }
 			% }

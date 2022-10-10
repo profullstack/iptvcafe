@@ -46,7 +46,7 @@
 		       <label for="pic">Profile Picture: </label>
 		       % if ($account_info[0][5]) {
 		       <div id="profile-pic-container" class="profile-pic-container">
-		       	<img src="https://anthony.paperhouse.cc/userdata/<%= $account_info[0][5]; %>" class="profile-pic" id="profile-pic" />
+		       	<img src="/userdata/<%= $account_info[0][5]; %>" class="profile-pic" id="profile-pic" />
 		       </div>
 		       % }
 		       <div id="file-entry" class="file-entry">

@@ -104,7 +104,7 @@
 	    					<div id="topic-left" class="topic-left">
 	    						<div id="topic-title" class="topic-title">
 	    							% foreach my $topic_title (@$topics[1]) {
-	    								<h3><a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id; %>"><%= $topic_title; %></a></h3>
+	    								<h3><a href="/topics?id=<%= $topic_id; %>"><%= $topic_title; %></a></h3>
 	    							% }
 	    						</div>
 	    						<div id="topic-info-stats" class="topic-info-stats">
@@ -116,7 +116,7 @@
 	    							<div id="topic-info-stats-created-by" class="topic-info-stats-item">
 	    								% foreach my $created_by_user_id (@$topics[4]) {
 	    									% foreach my $created_by_user (@$topics[5]) {
-	    										By <a href="https://anthony.paperhouse.cc/profile?id=<%= $created_by_user_id; %>" class="username_format_lite" target="_blank"><%= $created_by_user; %></a>
+	    										By <a href="/profile?id=<%= $created_by_user_id; %>" class="username_format_lite" target="_blank"><%= $created_by_user; %></a>
 	    									% }
 	    								% }
 	    							</div>
@@ -129,7 +129,7 @@
 	    							</div>
 	    							<div id="topic-info-stats-last-post-by" class="topic-info-stats-item">
 	    								% foreach my $last_post_by (@$topics[9]) {
-	    									Last post by <a href="https://anthony.paperhouse.cc/profile?id=<%= Minimojo::get_info('id', 'users', 'user', $last_post_by); %>" class="username_format_lite" target="_blank"><%= $last_post_by; %></a>
+	    									Last post by <a href="/profile?id=<%= Minimojo::get_info('id', 'users', 'user', $last_post_by); %>" class="username_format_lite" target="_blank"><%= $last_post_by; %></a>
 	    								% }
 	    							</div>
 	    						</div>
@@ -137,7 +137,7 @@
     					</div>
     				</div>
 	    			% if (($active_info[0][4] eq 'admin') or ($active_info[0][4] eq 'mod')) {
-	    				[<a href="https://anthony.paperhouse.cc/<%= $active_info[0][4]; %>?action=delete&type=topic&id=<%= $topic_id; %>">Delete topic</a>]
+	    				[<a href="/<%= $active_info[0][4]; %>?action=delete&type=topic&id=<%= $topic_id; %>">Delete topic</a>]
 	    			% }
     			% }
     		% }
@@ -147,7 +147,7 @@
 			% $page_count =~ s/\..*//;
 			% my $page_counter = 0;
 			% while ($page_counter < $page_count) {
-				[<a href="https://anthony.paperhouse.cc/boards?id=<%= $board_id; %>&page=<%= ($page_counter+1); %>"><%= ($page_counter+1); %></a>]
+				[<a href="/boards?id=<%= $board_id; %>&page=<%= ($page_counter+1); %>"><%= ($page_counter+1); %></a>]
 				% $page_counter++;
 			% }
 		% }

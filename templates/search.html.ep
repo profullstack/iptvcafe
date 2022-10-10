@@ -44,7 +44,7 @@
 		  					% }
 		  				% }
               <div id="search-title" class="search-title">
-		  				  <a href="https://anthony.paperhouse.cc/topics?id=<%= $topic_id.$page; %>"><%= Minimojo::get_info('topic', 'topics', 'id', $topic_id); %></a>
+		  				  <a href="/topics?id=<%= $topic_id.$page; %>"><%= Minimojo::get_info('topic', 'topics', 'id', $topic_id); %></a>
               </div>
               <div id="search-content" class="search-content">
                 % foreach my $post_body (@$search_result[1]) {

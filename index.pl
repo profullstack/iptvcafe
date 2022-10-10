@@ -665,7 +665,7 @@ post '/profile' => sub {
 
 								if ($add_user_profile_comment eq 'success') {
 
-									my $add_notification = Minimojo::insert('notifications', 'user_id, notification, notification_status', '\''.$self->param('user_id').'\', \'<a href="https://anthony.paperhouse.cc/profile?id='.$self->param('author_id').'" target="_blank">'.$self->param('author').'</a> left a comment on <a href="https://anthony.paperhouse.cc/profile?id='.$self->param('user_id').'" target="_blank">your profile</a>\', \'unread\'');
+									my $add_notification = Minimojo::insert('notifications', 'user_id, notification, notification_status', '\''.$self->param('user_id').'\', \'<a href="https://iptvcafe.com/profile?id='.$self->param('author_id').'" target="_blank">'.$self->param('author').'</a> left a comment on <a href="https://iptvcafe.com/profile?id='.$self->param('user_id').'" target="_blank">your profile</a>\', \'unread\'');
 
 									$self->redirect_to('/profile?id='.$self->param('user_id'));
 
@@ -1076,7 +1076,7 @@ post '/posts' => sub {
 
 								}
 
-								my $add_notification = Minimojo::insert('notifications', 'user_id, notification, notification_status', '\''.Minimojo::get_info('created_by_user_id', 'posts', 'id', $response_to).'\', \'<a href="https://anthony.paperhouse.cc/profile?id='.$self->param('created_by_user_id').'" target="_blank">'.$self->param('created_by_user').'</a> <a href="https://anthony.paperhouse.cc/topics?id='.$self->param('topic_id').$page.'#post-'.$response_to.'" target="_blank">replied</a> to your post in <a href="https://anthony.paperhouse.cc/topics?id='.$self->param('topic_id').'" target="_blank">'.Minimojo::get_info('topic', 'topics', 'id', $self->param('topic_id')).'</a>\', \'unread\'');
+								my $add_notification = Minimojo::insert('notifications', 'user_id, notification, notification_status', '\''.Minimojo::get_info('created_by_user_id', 'posts', 'id', $response_to).'\', \'<a href="https://iptvcafe.com/profile?id='.$self->param('created_by_user_id').'" target="_blank">'.$self->param('created_by_user').'</a> <a href="https://iptvcafe.com/topics?id='.$self->param('topic_id').$page.'#post-'.$response_to.'" target="_blank">replied</a> to your post in <a href="https://iptvcafe.com/topics?id='.$self->param('topic_id').'" target="_blank">'.Minimojo::get_info('topic', 'topics', 'id', $self->param('topic_id')).'</a>\', \'unread\'');
 
 							}
 

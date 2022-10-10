@@ -44,7 +44,7 @@
   	<div id="profile-left-right" class="profile-left-right">
 	  	<div id="profile-left" class="profile-left">
 			<div id="profile-pic-container-profile" class="profile-pic-container-profile">
-			   	<img src="https://anthony.paperhouse.cc/<%= Minimojo::get_user_profile_pic('id', $profile_info[0][0]); %>" class="profile-pic" id="profile-pic" />
+			   	<img src="/<%= Minimojo::get_user_profile_pic('id', $profile_info[0][0]); %>" class="profile-pic" id="profile-pic" />
 			  </div>
 			<div id="profile-info" class="profile-info">
 				<div id="profile-info-item" class="profile-info-item">Member since: <%= $profile_info[0][6]; %></div>
@@ -82,10 +82,10 @@
 						% foreach my $author_id (@$profile_comments[3]) {
 							% foreach my $author (@$profile_comments[4]) {
 								<div id="user-profile-comment-author-profile-pic" class="user-profile-comment-author-profile-pic">
-									<a href="https://anthony.paperhouse.cc/profile?id=<%= $author_id; %>"><img src="https://anthony.paperhouse.cc/<%= Minimojo::get_user_profile_pic('id', $author_id); %>" /></a>
+									<a href="/profile?id=<%= $author_id; %>"><img src="/<%= Minimojo::get_user_profile_pic('id', $author_id); %>" /></a>
 								</div>
 								<div id="user-profile-comment-author" class="user-profile-comment-author">
-									<a href="https://anthony.paperhouse.cc/profile?id=<%= $author_id; %>" class="username_format"><%= $author; %></a>
+									<a href="/profile?id=<%= $author_id; %>" class="username_format"><%= $author; %></a>
 								</div>
 							% }
 						% }
