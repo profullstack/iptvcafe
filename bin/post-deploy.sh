@@ -2,7 +2,8 @@
 
 cd "$(dirname "$0")/.."
 . $HOME/.bashrc
-. ./.env.defaults
+. .env
+. .env.local
 
 host=$HOST_DOMAIN
 name=$HOST_PATH
