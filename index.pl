@@ -114,6 +114,7 @@ post '/register' => sub {
 
 					if ($new_user_session ne 'failure') {
 
+						Minimojo::gen_email_verification_token($self->param('new_username'), $self->param('new_email'));
 						$self->session('session' => $new_user_session);
 						$self->session('username' => $self->param('new_username'));
 
@@ -2085,6 +2086,7 @@ get '/error' => sub {
 app->start;
 
 # --------------------------------------------------
+
 
 
 

@@ -196,19 +196,14 @@ sub gen_email_verification_token {
 	my $add_email_verification_token = eval { $dbh->prepare('INSERT INTO pending_account_verifications (verification_token, user) VALUES (\''.$new_token.'\', \''.$username.'\')') };
 		$add_email_verification_token->execute();
 
+	# will update this
 	my $sender = 'registration@anthony.paperhouse.cc';
 	my $to = $email;
-	my $from = 'From Sender <'.$sender.'>';
+	#my $from = 'From Sender <'.$sender.'>';
 	my $subject = 'Account Registration';
-	my $message = '<html>'."\r\n".'<body>Verify your account at '."\r\n".' '.$domain.'emailconfirm?token='.$new_token.'&user='.$username.'</body></html>';
-		open(MAIL, "|/usr/sbin/sendmail -t");
-		print MAIL "To: $to\n";
-		print MAIL "From: $sender\n";
-		print MAIL "Subject: $subject\n";
-		print MAIL "Content-type: text/html\n\n";
-		print MAIL $message;
-		close(MAIL);
+	my $message = 'To: '.$to."\n".'From: '.$sender."\n".'Subject: Account Registration'."\n".'Content-type: text/html'."\n\n".'<html>'."\r\n".'<body>Verify your account at '."\r\n".' '.$domain.'emailconfirm?token='.$new_token.'&user='.$username.'</body></html>';
 
+	send_email($message);
 	update_user_role($username, 'unconfirmed');
 
 }
@@ -802,14 +797,16 @@ sub insert {
 }
 
 sub send_email {
+
+	my ($message) = (shift);
+
 	my $transport = Email::Sender::Transport::Mailgun->new(
-			api_key => $mailgun,
-			domain  => $mailgun_domain
+		api_key => $mailgun,
+		domain  => $mailgun_domain
 	);
 
-	my $message = 'hello world'; 
-
 	sendmail($message, { transport => $transport });
+
 }
 
 sub uri_encode {
@@ -856,4 +853,5 @@ sub uri_encode {
 }
 
 1;
+
 
