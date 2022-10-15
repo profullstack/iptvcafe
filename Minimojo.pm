@@ -9,7 +9,8 @@ use strict;
 use warnings;
 use DBI;
 use Digest::MD5 qw(md5 md5_hex md5_base64);
-use Email::Sender::Transport::Mailgun qw( );
+use MIME::Base64;
+use LWP::UserAgent;
 use Dotenv -load => qw(.env .env.local);
 
 my $domain = $ENV{'DOMAIN'};
@@ -197,14 +198,7 @@ sub gen_email_verification_token {
 	my $add_email_verification_token = eval { $dbh->prepare('INSERT INTO pending_account_verifications (verification_token, user) VALUES (\''.$new_token.'\', \''.$username.'\')') };
 		$add_email_verification_token->execute();
 
-	# will update this
-	my $sender = $mailgun_registration_sender;
-	my $to = $email;
-	#my $from = 'From Sender <'.$sender.'>';
-	my $subject = 'Account Registration';
-	my $message = 'To: '.$to."\n".'From: '.$sender."\n".'Subject: Account Registration'."\n".'Content-type: text/html'."\n\n".'<html>'."\r\n".'<body>Verify your account at '."\r\n".' '.$domain.'emailconfirm?token='.$new_token.'&user='.$username.'</body></html>';
-
-	send_email($message);
+	send_email($mailgun_registration_sender, $email, 'Account Registration', 'Verify your account at '.$domain.'emailconfirm?token='.$new_token.'&user='.$username);
 	update_user_role($username, 'unconfirmed');
 
 }
@@ -799,14 +793,24 @@ sub insert {
 
 sub send_email {
 
-	my ($message) = (shift);
+	my ($from, $to, $subject, $text) = (shift, shift, shift, shift);
 
-	my $transport = Email::Sender::Transport::Mailgun->new(
-		api_key => $mailgun,
-		domain  => $mailgun_domain
-	);
+	my $ua = LWP::UserAgent->new();
+	    $ua->timeout(60);
 
-	sendmail($message, { transport => $transport });
+	my $send_email = $ua->post(
+		'https://api.mailgun.net/v3/'.$mailgun_domain.'/messages',
+		'Content-Type' => 'multipart/form-data',
+		'Accept' => '*/*',
+		'Authorization' => 'Basic '.encode_base64('api:'.$mailgun),
+		'Content' =>
+			[
+			'from' => $from,
+			'to' => $to,
+			'subject' => $subject,
+			'text' => $text
+			]
+		);
 
 }
 
@@ -854,6 +858,7 @@ sub uri_encode {
 }
 
 1;
+
 
 
 
