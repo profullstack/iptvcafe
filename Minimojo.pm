@@ -198,7 +198,7 @@ sub gen_email_verification_token {
 	my $add_email_verification_token = eval { $dbh->prepare('INSERT INTO pending_account_verifications (verification_token, user) VALUES (\''.$new_token.'\', \''.$username.'\')') };
 		$add_email_verification_token->execute();
 
-	send_email($mailgun_registration_sender, $email, 'Account Registration', 'Verify your account at '.$domain.'emailconfirm?token='.$new_token.'&user='.$username);
+	send_email('Account Registration <'.$mailgun_registration_sender.'>', $email, 'Account Registration', 'Verify your account at '.$domain.'emailconfirm?token='.$new_token.'&user='.$username);
 	update_user_role($username, 'unconfirmed');
 
 }
@@ -858,6 +858,7 @@ sub uri_encode {
 }
 
 1;
+
 
 
 
