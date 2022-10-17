@@ -114,11 +114,23 @@ post '/register' => sub {
 
 					if ($new_user_session ne 'failure') {
 
-						Minimojo::gen_email_verification_token($self->param('new_username'), $self->param('new_email'));
-						$self->session('session' => $new_user_session);
-						$self->session('username' => $self->param('new_username'));
+						my $email_verification = Minimojo::gen_email_verification_token($self->param('new_username'), $self->param('new_email'));
 
-						$self->redirect_to('/account');
+						if ($email_verification eq 'success') {
+
+							$self->session('session' => $new_user_session);
+							$self->session('username' => $self->param('new_username'));
+
+							$self->redirect_to('/account');
+
+						}
+
+						else {
+
+							$self->redirect_to('/error?code='.$email_verification);
+
+						}
+
 
 					}
 
@@ -2086,6 +2098,7 @@ get '/error' => sub {
 app->start;
 
 # --------------------------------------------------
+
 
 
 

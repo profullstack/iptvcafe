@@ -198,8 +198,20 @@ sub gen_email_verification_token {
 	my $add_email_verification_token = eval { $dbh->prepare('INSERT INTO pending_account_verifications (verification_token, user) VALUES (\''.$new_token.'\', \''.$username.'\')') };
 		$add_email_verification_token->execute();
 
-	send_email('Account Registration <'.$mailgun_registration_sender.'>', $email, 'Account Registration', 'Verify your account at '.$domain.'emailconfirm?token='.$new_token.'&user='.$username);
 	update_user_role($username, 'unconfirmed');
+	my $send_email = send_email('Account Registration <'.$mailgun_registration_sender.'>', $email, 'Account Registration', 'Verify your account at '.$domain.'emailconfirm?token='.$new_token.'&user='.$username);
+
+	if ($send_email eq '200 OK') {
+
+		return ('success');
+
+	}
+
+	else {
+
+		return ($send_email);
+
+	}
 
 }
 
@@ -812,6 +824,10 @@ sub send_email {
 			]
 		);
 
+	my ($send_email_response) = ($send_email->as_string =~ m/^HTTP\/1\.1 (.*)/);
+
+	return ($send_email_response);
+
 }
 
 sub uri_encode {
@@ -858,6 +874,7 @@ sub uri_encode {
 }
 
 1;
+
 
 
 
