@@ -201,7 +201,7 @@ sub gen_email_verification_token {
 	update_user_role($username, 'unconfirmed');
 	my $send_email = send_email('Account Registration <'.$mailgun_registration_sender.'>', $email, 'Account Registration', 'Verify your account at '.$domain.'emailconfirm?token='.$new_token.'&user='.$username);
 
-	if ($send_email eq '200 OK') {
+	if ($send_email =~ m/HTTP\/1\.1 200 OK/) {
 
 		return ('success');
 
@@ -824,7 +824,7 @@ sub send_email {
 			]
 		);
 
-	my ($send_email_response) = ($send_email->as_string =~ m/^HTTP\/1\.1 (.*)/);
+	my ($send_email_response) = ($send_email->as_string =~ m/(.*?)\n/);
 
 	return ($send_email_response);
 
@@ -874,6 +874,7 @@ sub uri_encode {
 }
 
 1;
+
 
 
 
