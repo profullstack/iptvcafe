@@ -3,7 +3,7 @@
 	% @active_info = @$active_user_info;
 % }
 % my @profile_info = @$user_profile_info;
-% layout 'default';
+% layout 'default', title => 'Profile';
 
 
 	<div id="top-nav" class="top-nav">

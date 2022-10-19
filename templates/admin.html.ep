@@ -1,5 +1,5 @@
 % my @active_info = @$active_user_info;
-% layout 'default';
+% layout 'default', title => 'Admin';
 
   <div id="top-nav" class="top-nav">
     <div id="top-nav-left" class="top-nav-left">

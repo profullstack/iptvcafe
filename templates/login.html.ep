@@ -1,4 +1,4 @@
-% layout 'default';
+% layout 'default', title => 'Login';
 
  	<div class="main-content" id="main-content">
  		<h1>Login</h1>

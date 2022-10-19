@@ -1,5 +1,5 @@
 % my @account_info = @$user_info;
-% layout 'default';
+% layout 'default', title => 'Account';
 
   <div id="top-nav" class="top-nav">
     <div id="top-nav-left" class="top-nav-left">

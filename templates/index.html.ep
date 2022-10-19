@@ -2,7 +2,7 @@
 % if ($is_user_logged_in eq 'yes') {
 	% @active_info = @$active_user_info;
 % }
-% layout 'default';
+% layout 'default', title => '';
 	<div id="top-nav" class="top-nav">
 	    <div id="top-nav-left" class="top-nav-left">
 	      [<a href="/">Home</a>]

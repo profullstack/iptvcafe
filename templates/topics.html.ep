@@ -2,7 +2,7 @@
 % if ($is_user_logged_in eq 'yes') {
 	% @active_info = @$active_user_info;
 % }
-% layout 'default';
+% layout 'default', title => 'Topics';
 
 % foreach my $topic_info (@$get_topic_info) {
 	% foreach my $topic_id (@$topic_info[0]) {

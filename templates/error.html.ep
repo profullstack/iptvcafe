@@ -1,11 +1,6 @@
-<html>
-  <head>
-    <title>Error</title>
-  </head>
-  <body>
+% layout 'default', title => 'Error';
+
   <p>
   	<b>Error code: <%= $code; %></b><br/>
  	<small><em>Please notify a site administrator</em></small>
   </p>
-  </body>
-</html>
