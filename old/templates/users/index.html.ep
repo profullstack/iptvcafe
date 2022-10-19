@@ -1,8 +1,0 @@
-% layout 'user', title => 'User';
-% for my $user (@$users) {
-  <h2><%= link_to $user->{username} => show_user => {id => $user->{id}} %></h2>
-  <p>
-    %= $user->{email}
-  </p>
-% }
-%= link_to 'New user' => 'create_user'

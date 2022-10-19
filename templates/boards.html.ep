@@ -2,19 +2,10 @@
 % if ($is_user_logged_in eq 'yes') {
 	% @active_info = @$active_user_info;
 % }
+% layout 'default';
 % foreach my $board_info (@$get_board_data) {
 	% foreach my $board_id (@$board_info[0]) {
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    % foreach my $board_name (@$board_info[1]) {
-    	<title><%= $board_name; %></title>
-    % }
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&#038;subset=latin,latin-ext' type='text/css' media='all'>
-    <link id="custom-google-fonts" href="https://fonts.googleapis.com/css?family=Libre+Franklin:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-    %= include '_maincss'
-  </head>
-  <body>
+
 	<div id="top-nav" class="top-nav">
 	    <div id="top-nav-left" class="top-nav-left">
 	      [<a href="/">Home</a>]
@@ -153,8 +144,6 @@
 		% }
     </div>
   </div>
-  </body>
-</html>
 	% }
 % }
 
